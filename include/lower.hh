@@ -38,6 +38,7 @@ namespace lower
         llvm::Value *lower( const ast::BinaryExpr &bin);
         llvm::Value *lower( const ast::BooleanLiteral &literal );
         llvm::Value *lower( const ast::IntegerLiteral &literal );
+        llvm::Value *lower( const ast::FloatLiteral &literal );
         void         lower( const ast::ReturnStmt &stmt );
 
         llvm::LLVMContext              &m_context;

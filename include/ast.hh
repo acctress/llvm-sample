@@ -17,13 +17,18 @@ namespace ast
         std::int64_t value;
     };
 
+    struct FloatLiteral
+    {
+        double value;
+    };
+
     struct BooleanLiteral
     {
         bool value;
     };
 
     //! every kind of expression.
-    using Expr = std::variant< BinaryExpr, IntegerLiteral, BooleanLiteral >;
+    using Expr = std::variant< BinaryExpr, IntegerLiteral, FloatLiteral, BooleanLiteral >;
 
     struct BinaryExpr
     {

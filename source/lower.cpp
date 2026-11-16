@@ -57,6 +57,7 @@ namespace lower
     {
         auto *lhs = lower_expr( *bin.lhs );
         auto *rhs = lower_expr( *bin.rhs );
+
         switch ( bin.op )
         {
             case ast::BinaryExpr::BinaryOp::Add : return m_builder.CreateAdd( lhs, rhs );
@@ -72,6 +73,11 @@ namespace lower
     {
         //! for BooleanLiteral, we can simply create a 1 bit boolean
         return llvm::ConstantInt::getSigned( m_builder.getInt1Ty( ), literal.value );
+    }
+
+    llvm::Value *ASTLowerer::lower( const ast::FloatLiteral &literal )
+    {
+        return llvm::ConstantFP::get( m_context, llvm::APFloat( literal.value ) );
     }
 
     llvm::Value *ASTLowerer::lower( const ast::IntegerLiteral &literal )
