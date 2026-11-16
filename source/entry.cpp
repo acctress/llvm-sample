@@ -8,7 +8,11 @@
 std::int32_t main( )
 {
     //! return 69;
-    constexpr std::array< ast::Stmt, 1 > body = { ast::ReturnStmt { ast::IntegerLiteral { 69 } } };
+    const std::array< ast::Stmt, 1 > body = { ast::ReturnStmt { ast::BinaryExpr {
+        .op  = ast::BinaryExpr::BinaryOp::Add,
+        .lhs = std::make_unique< ast::Expr >( ast::IntegerLiteral { 69 } ),
+        .rhs = std::make_unique< ast::Expr >( ast::IntegerLiteral { 92 } ),
+    } } };
 
     llvm::LLVMContext context;
     lower::ASTLowerer lowerer( context, "llvm-sample" );

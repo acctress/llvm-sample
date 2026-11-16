@@ -1,11 +1,15 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 #include <variant>
 
 namespace ast
 {
     //! expressions
+
+    //! a forward reference of the binary expression node
+    struct BinaryExpr;
 
     //! an integer constant, e.g. `42`
     struct IntegerLiteral
@@ -13,8 +17,27 @@ namespace ast
         std::int64_t value;
     };
 
+    struct BooleanLiteral
+    {
+        bool value;
+    };
+
     //! every kind of expression.
-    using Expr = std::variant< IntegerLiteral >;
+    using Expr = std::variant< BinaryExpr, IntegerLiteral, BooleanLiteral >;
+
+    struct BinaryExpr
+    {
+        enum class BinaryOp : std::uint8_t
+        {
+            Add,
+            Sub,
+            Mul,
+            Div,
+        };
+
+        BinaryOp                op {};
+        std::unique_ptr< Expr > lhs { nullptr }, rhs { nullptr };
+    };
 
     //! statements
 
@@ -26,4 +49,4 @@ namespace ast
 
     //! every kind of statement. add a struct above and list it here.
     using Stmt = std::variant< ReturnStmt >;
-} //! namespace ast
+} // namespace ast

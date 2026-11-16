@@ -35,6 +35,8 @@ namespace lower
         void         lower_stmt( const ast::Stmt &stmt );
 
         //! overload per node
+        llvm::Value *lower( const ast::BinaryExpr &bin);
+        llvm::Value *lower( const ast::BooleanLiteral &literal );
         llvm::Value *lower( const ast::IntegerLiteral &literal );
         void         lower( const ast::ReturnStmt &stmt );
 

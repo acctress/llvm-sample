@@ -11,10 +11,8 @@ namespace lower
     {
     }
 
-    std::expected< llvm::Function *, std::string > ASTLowerer::lower_function(
-        const std::string_view name,
-        const std::span< const ast::Stmt > body
-    )
+    std::expected< llvm::Function *, std::string > ASTLowerer::lower_function( const std::string_view             name,
+                                                                               const std::span< const ast::Stmt > body )
     {
         auto *type     = llvm::FunctionType::get( m_builder.getInt64Ty( ), false );
         auto *function = llvm::Function::Create( type, llvm::Function::ExternalLinkage, name, *m_module );
@@ -53,6 +51,27 @@ namespace lower
             //! visit the statement node, this could be ReturnStmt
             lower( node );
         }, stmt );
+    }
+
+    llvm::Value *ASTLowerer::lower( const ast::BinaryExpr &bin )
+    {
+        auto *lhs = lower_expr( *bin.lhs );
+        auto *rhs = lower_expr( *bin.rhs );
+        switch ( bin.op )
+        {
+            case ast::BinaryExpr::BinaryOp::Add : return m_builder.CreateAdd( lhs, rhs );
+            case ast::BinaryExpr::BinaryOp::Sub : return m_builder.CreateSub( lhs, rhs );
+            case ast::BinaryExpr::BinaryOp::Mul : return m_builder.CreateMul( lhs, rhs );
+            case ast::BinaryExpr::BinaryOp::Div : return m_builder.CreateSDiv( lhs, rhs );
+        }
+
+        std::unreachable( );
+    }
+
+    llvm::Value *ASTLowerer::lower( const ast::BooleanLiteral &literal )
+    {
+        //! for BooleanLiteral, we can simply create a 1 bit boolean
+        return llvm::ConstantInt::getSigned( m_builder.getInt1Ty( ), literal.value );
     }
 
     llvm::Value *ASTLowerer::lower( const ast::IntegerLiteral &literal )
