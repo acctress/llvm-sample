@@ -11,7 +11,7 @@ const std::array< ast::Stmt, 1 > body = { ast::ReturnStmt { ast::BinaryExpr {
 
 ...
 
-auto result = lowerer.lower_function( "foo", body );  
+auto result = lowerer.lower_function( "foo", body );
 ```
 
 ```llvmir
