@@ -7,7 +7,7 @@
 
 std::int32_t main( )
 {
-    //! return 69;
+    //! return 69 + 92;
     const std::array< ast::Stmt, 1 > body = { ast::ReturnStmt { ast::BinaryExpr {
         .op  = ast::BinaryExpr::BinaryOp::Add,
         .lhs = std::make_unique< ast::Expr >( ast::IntegerLiteral { 69 } ),

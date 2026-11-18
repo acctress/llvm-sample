@@ -3,9 +3,11 @@
 A small program which lowers a hand-built AST into LLVM IR, this sample can be built ontop of.
 
 ```cpp
-constexpr std::array< ast::Stmt, 1 > body = { 
-    ast::ReturnStmt { ast::IntegerLiteral { 69 } } 
-};
+const std::array< ast::Stmt, 1 > body = { ast::ReturnStmt { ast::BinaryExpr {
+    .op  = ast::BinaryExpr::BinaryOp::Add,
+    .lhs = std::make_unique< ast::Expr >( ast::IntegerLiteral { 69 } ),
+    .rhs = std::make_unique< ast::Expr >( ast::IntegerLiteral { 92 } ),
+} } };
 
 ...
 
@@ -18,7 +20,7 @@ source_filename = "llvm-sample"
 
 define i64 @foo() {
 entry:
-  ret i64 69
+  ret i64 161
 }
 ```
 
